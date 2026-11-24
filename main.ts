@@ -6,7 +6,13 @@ import { dirname } from "node:path";
 
 const OUT = "/output/entry.txt";
 
+// The bounty admits exactly one correct text: the entrant's own
+// make.fun username, one word, nothing else. Guard it in code so a
+// stray edit can never turn the entry into something invalid.
 const LINE = "bangjacky";
+if (!/^\S{1,30}$/.test(LINE)) {
+  throw new Error("entry must be one word of at most 30 characters");
+}
 
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, LINE, "utf8");
